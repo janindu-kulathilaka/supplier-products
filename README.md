@@ -112,7 +112,3 @@ This repository contains a full-stack application with a Laravel backend and a V
 ## Recommended IDE Setup
 
 - [VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
-
-## Customize Configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
