@@ -15,6 +15,26 @@ class ProductController extends Controller
         return response()->json($supplier->products()->paginate(10));
     }
 
+
+    public function getProductDetails(Request $request)
+    {
+        // Get the search and pagination parameters
+        $search = $request->input('search', ''); // Search query
+        $pageSize = $request->input('pageSize', 10); // Number of items per page
+        $page = $request->input('page', 1); // Current page number
+
+        // Query products with search filtering on product_name
+        $productsQuery = Product::query()
+            ->where('product_name', 'like', '%' . $search . '%');
+
+        // Paginate the query result with page number and page size
+        $products = $productsQuery->paginate($pageSize, ['*'], 'page', $page);
+
+        // Return the paginated products data
+        return response()->json($products);
+    }
+
+
     // Store a newly created product in storage
     public function store(Request $request, Supplier $supplier)
     {

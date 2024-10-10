@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\ProductController;
 
 Route::apiResource('suppliers', SupplierController::class);
 Route::get('/getSupplierDetails', [SupplierController::class, 'getSupplierDetails']);
@@ -11,6 +12,9 @@ Route::post('/store', [SupplierController::class, 'store']);
 Route::post('/update/{id}', [SupplierController::class, 'update']);
 Route::delete('/delete/{id}', [SupplierController::class, 'destroy']);
 Route::get('/supplier/{id}', [SupplierController::class, 'show']);
+
+
+Route::get('/getProductDetails', [ProductController::class, 'getProductDetails']);
 
 /*
 |--------------------------------------------------------------------------
