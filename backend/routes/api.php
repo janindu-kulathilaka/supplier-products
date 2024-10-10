@@ -7,7 +7,8 @@ use App\Http\Controllers\SupplierController;
 Route::apiResource('suppliers', SupplierController::class);
 Route::get('/getSupplierDetails', [SupplierController::class, 'getSupplierDetails']);
 Route::post('/store', [SupplierController::class, 'store']);
-Route::put('/update/{id}', [SupplierController::class, 'update']);
+// Route::put('/update/{id}', [SupplierController::class, 'update']);
+Route::post('/update/{id}', [SupplierController::class, 'update']);
 Route::delete('/delete/{id}', [SupplierController::class, 'destroy']);
 Route::get('/supplier/{id}', [SupplierController::class, 'show']);
 

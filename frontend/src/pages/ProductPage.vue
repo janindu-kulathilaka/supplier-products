@@ -4,7 +4,9 @@ import NavBar from '@/components/NavBar.vue'
 
 <template>
   <NavBar />
-  <div>
-    <h1>Product Page</h1>
+  <div class="bg-primary min-h-screen overflow-auto">
+    <div
+      class="bg-[#00000095] min-h-screen w-full flex items-center justify-center overflow-auto pb-10"
+    ></div>
   </div>
 </template>

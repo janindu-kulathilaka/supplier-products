@@ -34,48 +34,6 @@ class SupplierController extends Controller
         return response()->json($suppliers);
     }
 
-
-
-    // public function store(Request $request)
-    // {
-    //     // Print the request data to debu
-
-    //     // Validate the incoming request
-    //     $validated = $request->validate([
-    //         'supplier_name' => 'required|string',
-    //         'contact_person' => 'required|string',
-    //         'mobile_numbers' => 'required|string',
-    //         'products' => 'required|array', // Make sure products are required
-    //     ]);
-
-    //     // Create the supplier
-    //     $supplier = Supplier::create([
-    //         'supplier_name' => $validated['supplier_name'],
-    //         'contact_person' => $validated['contact_person'],
-    //         'mobile_numbers' => $validated['mobile_numbers'],
-    //     ]);
-
-    //     print_r($supplier);
-
-    //     $supplierId = $supplier->id;
-
-    //     // Create a new instance of ProductController
-    //     $productController = new ProductController();
-
-    //     if (isset($validated['products'])) {
-    //         foreach ($validated['products'] as $productData) {
-    //             // Create a new request for the product store method
-    //             $productRequest = new Request(array_merge($productData, ['supplier_id' => $supplierId]));
-
-    //             // Call the store method of ProductController
-    //             $productController->store($productRequest, $supplier);
-    //         }
-    //     }
-
-    //     // Return a JSON response
-    //     return response()->json($supplier, 201);
-    // }
-
     public function store(Request $request)
     {
 
@@ -116,34 +74,55 @@ class SupplierController extends Controller
         return response()->json($supplier, 201);
     }
 
-    // public function update(Request $request, Supplier $supplier)
+    // public function update(Request $request, $id)
     // {
+
+    //     // Fetch the supplier by ID
+    //     $supplier = Supplier::findOrFail($id);
+
+    //     // Validate the request data
     //     $validated = $request->validate([
     //         'supplier_name' => 'sometimes|required|string',
     //         'contact_person' => 'sometimes|required|string',
     //         'mobile_numbers' => 'sometimes|required|string',
-    //         'products' => 'sometimes|required|array', // Ensure products are included
+    //         'products' => 'sometimes|required|array',
+    //         'products.*.id' => 'sometimes|integer', // Allow optional ID for products
+    //         'products.*.product_name' => 'required|string',
+    //         'products.*.product_price' => 'required|numeric',
     //     ]);
 
-    //     // Update the supplier details
-    //     $supplier->update($validated);
+    //     // Prepare data for supplier update
+    //     $supplierData = array_filter($validated, function ($key) {
+    //         return in_array($key, ['supplier_name', 'contact_person', 'mobile_numbers']);
+    //     }, ARRAY_FILTER_USE_KEY);
 
-    //     // Update products
+    //     // Update the supplier's general details if any are provided
+    //     if (!empty($supplierData)) {
+    //         $supplier->update($supplierData);
+    //     }
+
+    //     // Check if products are provided in the request
     //     if (isset($validated['products'])) {
-
-    //         // Create new products
     //         foreach ($validated['products'] as $productData) {
-    //             $productData['supplier_id'] = $supplier->id; // Add supplier_id to product data
-    //             Product::create($productData); // Create new product
+    //             if (isset($productData['id'])) {
+    //                 // Update existing product
+    //                 $product = Product::find($productData['id']);
+    //                 if ($product) {
+    //                     $product->update($productData);
+    //                 }
+    //             } else {
+    //                 // Create a new product if no ID exists
+    //                 $supplier->products()->create($productData);
+    //             }
     //         }
     //     }
 
-    //     return response()->json($supplier->load('products')); // Return updated supplier with products
+    //     // Return the updated supplier with a JSON response
+    //     return response()->json($supplier->load('products')); // Load related products if needed
     // }
 
-    public function update(Request $request,  $id)
+    public function update(Request $request, $id)
     {
-        print_r($request->all());
         // Fetch the supplier by ID
         $supplier = Supplier::findOrFail($id);
 
@@ -187,8 +166,6 @@ class SupplierController extends Controller
         // Return the updated supplier with a JSON response
         return response()->json($supplier->load('products')); // Load related products if needed
     }
-
-
 
 
     public function destroy($id)

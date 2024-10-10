@@ -166,6 +166,7 @@ export default {
         formData.append('mobile_numbers', this.formSupplier.mobile_numbers)
 
         this.formSupplier.products.forEach((product, index) => {
+          formData.append(`products[${index}][id]`, product.id)
           formData.append(`products[${index}][product_name]`, product.product_name)
           formData.append(`products[${index}][product_price]`, product.product_price)
           if (product.image) {
@@ -173,14 +174,15 @@ export default {
           }
         })
 
-        await axios.put(`http://localhost:8000/api/update/${this.formSupplier.id}`, formData, {
+        await axios.post(`http://localhost:8000/api/update/${this.formSupplier.id}`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data'
           }
         })
 
-        this.$emit('formSubmitted') // Emit the event to inform the parent component
-        this.clearForm() // Reset the form
+        this.$emit('formSubmitted')
+        this.clearForm()
+        window.location.reload()
       } catch (error) {
         console.error('Error updating supplier:', error)
       }
